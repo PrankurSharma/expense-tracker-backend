@@ -128,7 +128,7 @@ app.put('/api/forgot', (request, res) => {
 
 app.get('/api/logout', (request, res) => {
 	if (request.session.user) {
-		res.clearCookie('userId');
+		request.session.destroy();
 		res.send({ loggedIn: "false" });
 		res.end();
 	}
