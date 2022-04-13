@@ -30,6 +30,12 @@ app.use(session({
 	secret: "Snap31081229@",
 	resave: false,
 	saveUninitialized: false,
+	cookie: { 
+		httpOnly: true, 
+		secure: true, 
+		maxAge: 1000 * 60 * 60 * 48, 
+		sameSite: 'none' 
+	}
 })
 );
 app.use(function (req, res, next) {
