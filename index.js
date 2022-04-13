@@ -12,13 +12,13 @@ var port = process.env.PORT || 3001;
 
 
 const db = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	password: 'prankursharma',
-	database: 'crud',
+	host: 'remotemysql.com',
+	user: 'pxj9TA5JSf',
+	password: '7jbkU8hT5u',
+	database: 'pxj9TA5JSf',
 });
 app.use(cors({
-	origin: ["http://localhost:3000"],
+	origin: ["https://eclectic-lollipop-55eab1.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));
