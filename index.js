@@ -25,6 +25,7 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.set('trust proxy', 1);
 app.use(session({
 	key: "userId",
 	secret: "Snap31081229@",
@@ -42,8 +43,6 @@ app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });
-
-app.set('trust proxy', 1);
 
 app.post('/api/signup', (req, res) => {
 
