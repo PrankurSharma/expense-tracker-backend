@@ -26,11 +26,14 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
+	key: "userId",
 	secret: "Snap31081229@",
 	resave: false,
 	saveUninitialized: false,
-	cookie: {  
-		key: "userId",
+	cookie: { 
+		httpOnly: true, 
+		secure: (process.env.NODE_ENV && process.env.NODE_ENV == 'production') ? true:false, 
+		maxAge: 1000 * 60 * 60 * 48, 
 		sameSite: 'none' 
 	}
 })
@@ -126,7 +129,7 @@ app.put('/api/forgot', (request, res) => {
 
 app.get('/api/logout', (request, res) => {
 	if (request.session.user) {
-		res.clearCookie('1P_JAR');
+		res.clearCookie('userId');
 		res.send({ loggedIn: "false" });
 		res.end();
 	}
