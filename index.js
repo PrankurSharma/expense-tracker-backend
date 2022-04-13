@@ -30,7 +30,9 @@ app.use(session({
 	secret: "Snap31081229@",
 	resave: false,
 	saveUninitialized: false,
-	cookie: {  
+	cookie: { 
+		secure: true, 
+		maxAge: 1000 * 60 * 60 * 48, 
 		sameSite: 'none' 
 	}
 })
