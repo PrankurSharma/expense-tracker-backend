@@ -26,13 +26,11 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-	key: "userId",
 	secret: "Snap31081229@",
 	resave: false,
 	saveUninitialized: false,
-	cookie: { 
-		httpOnly: true, 
-		secure: true, 
+	cookie: {  
+		key: "userId",
 		sameSite: 'none' 
 	}
 })
