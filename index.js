@@ -31,6 +31,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	cookie: { 
+		httpOnly: true, 
 		secure: true, 
 		maxAge: 1000 * 60 * 60 * 48, 
 		sameSite: 'none' 
@@ -128,7 +129,7 @@ app.put('/api/forgot', (request, res) => {
 
 app.get('/api/logout', (request, res) => {
 	if (request.session.user) {
-		res.clearCookie('userId');
+		res.clearCookie('1P_JAR');
 		res.send({ loggedIn: "false" });
 		res.end();
 	}
