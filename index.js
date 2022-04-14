@@ -18,7 +18,7 @@ const db = mysql.createPool({
 	database: 'pxj9TA5JSf',
 });
 app.use(cors({
-	origin: ["https://eclectic-lollipop-55eab1.netlify.app"],
+	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));
