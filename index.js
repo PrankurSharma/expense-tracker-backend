@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const mysql = require('mysql');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
@@ -10,13 +9,8 @@ const { request } = require('express');
 const saltRounds = 10;
 var port = process.env.PORT || 3001;
 
+const db = require('./db');
 
-const db = mysql.createPool({
-	host: 'remotemysql.com',
-	user: 'pxj9TA5JSf',
-	password: '7jbkU8hT5u',
-	database: 'pxj9TA5JSf',
-});
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
