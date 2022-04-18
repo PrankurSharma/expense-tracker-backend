@@ -5,3 +5,4 @@ mysql.createPool({
 	password: '7jbkU8hT5u',
 	database: 'pxj9TA5JSf',
 });
+module.exports = db;
