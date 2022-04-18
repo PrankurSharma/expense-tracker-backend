@@ -1,5 +1,5 @@
 const express = require('express');
-require("sensitive").config();
+require("dotenv").config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
