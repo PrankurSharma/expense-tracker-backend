@@ -1,4 +1,6 @@
 const express = require('express');
+//only useful for development purposes
+require("dotenv").config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
@@ -12,10 +14,10 @@ var port = process.env.PORT || 3001;
 
 
 const db = mysql.createPool({
-	host: 'remotemysql.com',
-	user: 'pxj9TA5JSf',
-	password: '7jbkU8hT5u',
-	database: 'pxj9TA5JSf',
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASS,
+	database: process.env.DB,
 });
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
@@ -27,13 +29,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(session({
-	name: "userId",
-	secret: "Snap31081229@",
+	name: process.env.SESS_NAME,
+	secret: process.env.SESS_SECRET,
 	resave: false,
 	saveUninitialized: false,
 	cookie: { 
 		httpOnly: true, 
-		secure: (process.env.NODE_ENV && process.env.NODE_ENV == 'production') ? true:false, 
+		secure: process.env.NODE_ENV == 'production' ? true : false, 
 		maxAge: 1000 * 60 * 60 * 48, 
 		sameSite: 'none' 
 	}
