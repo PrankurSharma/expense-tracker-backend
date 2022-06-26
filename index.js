@@ -7,6 +7,7 @@ const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const filestore = require('session-file-store')(session);
 const bcrypt = require('bcrypt');
 const { request } = require('express');
 const saltRounds = 10;
@@ -33,8 +34,8 @@ app.use(session({
 	secret: process.env.SESS_SECRET,
 	resave: false,
 	saveUninitialized: false,
+	store: new filestore(),
 	cookie: {
-		maxAge: 1000 * 60 * 60 * 72,
 		httpOnly: true,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: 'none'
