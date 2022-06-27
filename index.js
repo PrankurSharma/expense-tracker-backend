@@ -60,7 +60,7 @@ app.use(session({
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
-		sameSite: 'none'
+		sameSite: true
 	}
 })
 );
@@ -99,6 +99,7 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
+						res.locals.session = req.session;
 						request.session.user = results;
 						console.log(request.session);
 						response.send(results);
