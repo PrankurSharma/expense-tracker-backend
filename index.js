@@ -91,8 +91,12 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						request.session.isLoggedIn = true;
 						console.log(request.session);
+						req.session.save(function (err) {
+							if (err) { 
+								return next(err)
+							}
+						});
 						response.send(results);
 					}
 					else {
@@ -109,7 +113,7 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
-	if (request.session.isLoggedIn) {
+	if (request.session.user) {
 		response.send(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
