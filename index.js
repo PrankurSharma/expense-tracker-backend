@@ -119,7 +119,7 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
-	console.log(request.session.user);
+	console.log(request.session);
 	if (request.session.user) {
 		response.send(request.session.user);
 	} else {
