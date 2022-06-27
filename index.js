@@ -57,11 +57,11 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true,
 	store: sessionStore,
-	cookie: {
+	/*cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: true
-	}
+	}*/
 })
 );
 /*app.use(function (req, res, next) {
