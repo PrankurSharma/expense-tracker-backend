@@ -112,6 +112,7 @@ app.post('/api/login', (request, response) => {
 				response.send({ message: "User doesn't exist" });
 			}
 		});
+		console.log(request.session.user);
 	}
 })
 
