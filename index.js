@@ -59,7 +59,7 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
-		secure: process.env.NODE_ENV == 'production' ? false : false,
+		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: true
 	}
 })
@@ -68,6 +68,8 @@ app.use(session({
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });*/
+
+var userDetails = [];
 
 app.post('/api/signup', (req, res) => {
 
@@ -100,7 +102,8 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						console.log(request.session.user);
+						userDetails = request.session.user;
+						console.log(request.session);
 						response.send(results);
 					}
 					else {
@@ -111,14 +114,15 @@ app.post('/api/login', (request, response) => {
 			else {
 				response.send({ message: "User doesn't exist" });
 			}
+			console.log(request.session);
 		});
-		console.log(request.session.user);
+		console.log(request.session);
 	}
 })
 
 app.get('/api/login', function (request, response) {
-	if (request.session.user) {
-		response.send(request.session.user);
+	if (userDetails) {
+		response.send(userDetails);
 	} else {
 		response.send('Please login to view this page!');
 	}
