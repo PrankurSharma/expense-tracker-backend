@@ -54,8 +54,8 @@ app.use(cookieParser());
 app.use(session({
 	name: process.env.SESS_NAME,
 	secret: process.env.SESS_SECRET,
-	resave: false,
-	saveUninitialized: false,
+	resave: true,
+	saveUninitialized: true,
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
@@ -99,7 +99,6 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
-						response.locals.session = request.session;
 						request.session.user = results;
 						console.log(request.session);
 						response.send(results);
