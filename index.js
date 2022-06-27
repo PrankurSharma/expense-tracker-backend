@@ -57,13 +57,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	store: sessionStore,
-	cookie: {
-		maxAge: 1000 * 60 * 60 * 72,
-		store: sessionStore,
-		httpOnly: true,
-		secure: process.env.NODE_ENV == 'production' ? true : false,
-		sameSite: true
-	}
+	
 })
 );
 /*app.use(function (req, res, next) {
