@@ -50,16 +50,15 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.set('trust proxy', 1);
+//app.set('trust proxy', 1);
 app.use(session({
 	name: process.env.SESS_NAME,
 	secret: process.env.SESS_SECRET,
 	resave: false,
-	saveUninitialized: true,
+	saveUninitialized: false,
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
-		httpOnly: true,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: true
 	}
@@ -114,7 +113,6 @@ app.post('/api/login', (request, response) => {
 			}
 		});
 	}
-	console.log(request.session);
 })
 
 app.get('/api/login', function (request, response) {
