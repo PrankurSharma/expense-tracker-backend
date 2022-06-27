@@ -111,6 +111,7 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
+	ssn = request.session;
 	if (ssn.user) {
 		response.send(ssn.user);
 	} else {
