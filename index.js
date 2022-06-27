@@ -92,7 +92,7 @@ app.post('/api/login', (request, response) => {
 					if (res) {
 						request.session.user = results;
 						console.log(request.session);
-						req.session.save(function (err) {
+						request.session.save(function (err) {
 							if (err) { 
 								return next(err)
 							}
