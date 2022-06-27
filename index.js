@@ -115,7 +115,7 @@ app.post('/api/login', (request, response) => {
 			}
 		});
 	}
-	console.log(request.session.user);
+	console.log(request.session);
 })
 
 app.get('/api/login', function (request, response) {
