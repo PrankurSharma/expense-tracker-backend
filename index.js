@@ -154,12 +154,16 @@ app.put('/api/forgot', (request, res) => {
 });
 
 app.get('/api/logout', (request, res) => {
-	if (request.session.user) {
-		request.session.destroy();
+		request.session.destroy(err => {
+			if(err){
+				console.log(err);
+			}
+			sessionStore.close()
+			res.clearCookie(process.env.SESS_NAME)
+		});
 		res.send({ loggedIn: "false" });
 		res.end();
-	}
-})
+});
 
 app.post('/api/filter', (request, res) => {
 	if (request.session.user) {
