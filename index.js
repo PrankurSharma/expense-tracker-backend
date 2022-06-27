@@ -41,7 +41,7 @@ const options = {
 //const pool = mysql.createPool(options);
 
 const sessionStore = new mysqlStore(options);
-let userDetails = [];
+
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
@@ -64,10 +64,10 @@ app.use(session({
 	}
 })
 );
-/*app.use(function (req, res, next) {
+app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
-});*/
+});
 
 app.post('/api/signup', (req, res) => {
 
@@ -100,7 +100,6 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						userDetails = Array.from(results);
 						console.log(request.session);
 						response.send(results);
 					}
@@ -118,8 +117,8 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
-	if (userDetails) {
-		response.send(userDetails);
+	if (request.session.user) {
+		response.send(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
 	}
