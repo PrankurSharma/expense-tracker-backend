@@ -27,7 +27,15 @@ const options = {
     user: process.env.DB_USER,
     database: db,
     host: process.env.DB_HOST,
-    createDatabaseTable: true
+    createDatabaseTable: false,
+	schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
 }
 
 const pool = mysql.createPool(options);
