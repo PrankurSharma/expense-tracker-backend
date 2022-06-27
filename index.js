@@ -60,7 +60,7 @@ app.use(session({
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
-		sameSite: true
+		sameSite: 'none'
 	}
 })
 );
@@ -111,7 +111,6 @@ app.post('/api/login', (request, response) => {
 			else {
 				response.send({ message: "User doesn't exist" });
 			}
-			console.log(request.session);
 		});
 		console.log(request.session);
 	}
