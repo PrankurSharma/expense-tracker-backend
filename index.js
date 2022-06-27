@@ -103,6 +103,7 @@ app.post('/api/login', (request, response) => {
 					if (res) {
 						request.session.person_id = person_id;
 						request.session.user = results;
+						console.log(request.session.person_id);
 						response.send(results);
 					}
 					else {
