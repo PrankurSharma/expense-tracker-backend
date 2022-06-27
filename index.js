@@ -1,4 +1,4 @@
-/*const express = require('express');
+const express = require('express');
 //only useful for development purposes
 require("dotenv").config();
 const bodyParser = require('body-parser');
@@ -56,9 +56,15 @@ app.use(session({
 	}
 })
 );
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
+});*/
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 });
 
 app.post('/api/signup', (req, res) => {
@@ -317,9 +323,9 @@ app.put('/api/update', (request, res) => {
 
 app.listen(port, () => {
 	console.log('running on port ' + port);
-});*/
+});
 
-const express = require('express');
+/*const express = require('express');
 //only useful for development purposes
 require("dotenv").config();
 const bodyParser = require('body-parser');
@@ -618,4 +624,4 @@ app.put('/api/update', (request, res) => {
 
 app.listen(port, () => {
 	console.log('running on port ' + port);
-});
+});*/
