@@ -51,7 +51,6 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
-		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: true
 	}
 })
@@ -60,13 +59,6 @@ app.use(session({
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });*/
-
-app.use(function(req, res, next) {
-	res.header('Access-Control-Allow-Credentials', true);
-	res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-	next();
-});
 
 app.post('/api/signup', (req, res) => {
 
