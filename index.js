@@ -69,8 +69,6 @@ app.use(session({
 	next();
 });*/
 
-var userDetails = [];
-
 app.post('/api/signup', (req, res) => {
 
 	let person_id = req.body.person_id;
@@ -102,7 +100,6 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						userDetails = request.session.user;
 						console.log(request.session);
 						response.send(results);
 					}
@@ -121,8 +118,8 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
-	if (userDetails) {
-		response.send(userDetails);
+	if (request.session.user) {
+		response.send(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
 	}
