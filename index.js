@@ -101,7 +101,6 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
-						request.session.person_id = person_id;
 						request.session.user = results;
 						response.send(results);
 					}
@@ -114,13 +113,12 @@ app.post('/api/login', (request, response) => {
 				response.send({ message: "User doesn't exist" });
 			}
 		});
-		console.log(request.session.user);
 	}
 })
 
 app.get('/api/login', function (request, response) {
-	console.log(request.session);
 	if (request.session.user) {
+		console.log(request.session.user);
 		response.send(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
