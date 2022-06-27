@@ -99,7 +99,7 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
-						res.locals.session = req.session;
+						response.locals.session = request.session;
 						request.session.user = results;
 						console.log(request.session);
 						response.send(results);
