@@ -55,13 +55,13 @@ app.use(session({
 	name: process.env.SESS_NAME,
 	secret: process.env.SESS_SECRET,
 	resave: false,
-	saveUninitialized: true,
+	saveUninitialized: false,
 	store: sessionStore,
-	/*cookie: {
+	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
 		sameSite: true
-	}*/
+	}
 })
 );
 /*app.use(function (req, res, next) {
@@ -117,6 +117,8 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
+	var sessUser = request.session;
+	console.log(sessUser.person_id);
 	if (request.session.user) {
 		response.send(request.session.user);
 	} else {
