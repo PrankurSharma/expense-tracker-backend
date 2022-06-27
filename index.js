@@ -102,7 +102,7 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						request.session.save();
+						console.log(request.session);
 						response.send(results);
 					}
 					else {
