@@ -59,8 +59,8 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
-		secure: process.env.NODE_ENV == 'production' ? true : false,
-		sameSite: false
+		secure: process.env.NODE_ENV == 'production' ? false : false,
+		sameSite: true
 	}
 })
 );
@@ -100,7 +100,7 @@ app.post('/api/login', (request, response) => {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
 						request.session.user = results;
-						console.log(request.session);
+						console.log(request.session.user);
 						response.send(results);
 					}
 					else {
