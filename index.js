@@ -6,19 +6,34 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
+const mysqlStore = require('express-mysql-session')(session);
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const { request } = require('express');
 const saltRounds = 10;
 var port = process.env.PORT || 3001;
 
-
 const db = mysql.createPool({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	database: process.env.DB,
+	createDatabaseTable: true
 });
+
+const options = {
+    connectionLimit: 10,
+    password: process.env.DB_PASS,
+    user: process.env.DB_USER,
+    database: db,
+    host: process.env.DB_HOST,
+    createDatabaseTable: true
+}
+
+const pool = mysql.createPool(options);
+
+const  sessionStore = new mysqlStore(options, pool);
+
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
@@ -33,11 +48,13 @@ app.use(session({
 	secret: process.env.SESS_SECRET,
 	resave: false,
 	saveUninitialized: false,
+	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
+		store: sessionStore,
 		httpOnly: true,
 		secure: process.env.NODE_ENV == 'production' ? true : false,
-		sameSite: 'none'
+		sameSite: true
 	}
 })
 );
