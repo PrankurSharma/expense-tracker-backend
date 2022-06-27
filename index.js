@@ -38,9 +38,9 @@ const options = {
     }*/
 }
 
-const pool = mysql.createPool(options);
+//const pool = mysql.createPool(options);
 
-const sessionStore = new mysqlStore(options, pool);
+const sessionStore = new mysqlStore(options);
 
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
