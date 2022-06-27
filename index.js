@@ -103,7 +103,6 @@ app.post('/api/login', (request, response) => {
 					if (res) {
 						request.session.person_id = person_id;
 						request.session.user = results;
-						console.log(request.session.user);
 						response.send(results);
 					}
 					else {
@@ -115,6 +114,7 @@ app.post('/api/login', (request, response) => {
 				response.send({ message: "User doesn't exist" });
 			}
 		});
+		console.log(request.session.user);
 	}
 })
 
