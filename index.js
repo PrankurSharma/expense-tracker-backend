@@ -25,17 +25,17 @@ const options = {
     connectionLimit: 10,
     password: process.env.DB_PASS,
     user: process.env.DB_USER,
-    database: db,
+    database: process.env.DB_USER,
     host: process.env.DB_HOST,
-    createDatabaseTable: false,
-	schema: {
+    createDatabaseTable: true
+	/*schema: {
         tableName: 'sessions',
         columnNames: {
             session_id: 'session_id',
             expires: 'expires',
             data: 'data'
         }
-    }
+    }*/
 }
 
 const pool = mysql.createPool(options);
