@@ -121,6 +121,7 @@ app.post('/api/login', (request, response) => {
 app.get('/api/login', function (request, response) {
 	if (request.session.user) {
 		response.send(request.session.user);
+		console.log(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
 	}
