@@ -96,12 +96,12 @@ app.post('/api/login', (request, response) => {
 						response.send(results);
 					}
 					else {
-						response.send({ message: " Wrong ID or password" });
+						response.send({ message: " Wrong ID or password." });
 					}
 				})
 			}
 			else {
-				response.send({ message: "User doesn't exist" });
+				response.send({ message: "User doesn't exist." });
 			}
 		});
 	}
@@ -160,9 +160,6 @@ app.post('/api/filter', (request, res) => {
 			console.log(result);
 			res.send(result);
 		})
-	}
-	else {
-		res.send({ message: "Please login to view this page." });
 	}
 })
 
@@ -247,9 +244,6 @@ app.post('/api/filterincome', (request, res) => {
 			console.log(result);
 			res.send(result);
 		})
-	}
-	else {
-		res.send({ message: "Please login to continue." });
 	}
 })
 
