@@ -61,8 +61,6 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.options('*', cors);
-
 app.post('/api/signup', (req, res) => {
 
 	let person_id = req.body.person_id;
@@ -264,6 +262,8 @@ app.post('/api/filterexpense', (request, res) => {
 	}
 })
 
+app.options('/api/insert', cors());
+
 app.post('/api/insert', (request, res) => {
 
 	//take the i/p from the front end
@@ -281,6 +281,8 @@ app.post('/api/insert', (request, res) => {
 	}
 });
 
+app.options('/api/delete/:trans_id', cors());
+
 app.delete('/api/delete/:trans_id', (request, res) => {
 	if (request.session.user) {
 		const id = request.params.trans_id;
@@ -291,6 +293,8 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 		})
 	}
 });
+
+app.options('/api/update', cors());
 
 app.put('/api/update', (request, res) => {
 	if (request.session.user) {
