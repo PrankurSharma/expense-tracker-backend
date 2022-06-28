@@ -2,7 +2,7 @@ const express = require('express');
 //only useful for development purposes
 require("dotenv").config();
 const bodyParser = require('body-parser');
-//const cors = require('cors');
+const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
@@ -61,23 +61,7 @@ app.use(function (req, res, next) {
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));*/
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://finer.netlify.app")
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-    )
-	res.header("Access-Control-Allow-Credentials", true)
-    if (req.method === "OPTIONS") {
-      res.header(
-        "Access-Control-Allow-Methods",
-        "POST, PUT, PATCH, GET, DELETE"
-      )
-      return res.status(200).json({})
-    }
-    next()
-  })
+app.use(cors());
 
 app.post('/api/signup', (req, res) => {
 
