@@ -54,12 +54,11 @@ app.use(function (req, res, next) {
 	next();
 });
 
-/*app.use(cors({
+app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
-}));*/
-app.use(cors());
+}));
 
 app.post('/api/signup', (req, res) => {
 
