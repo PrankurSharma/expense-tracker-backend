@@ -1,6 +1,4 @@
 const express = require('express');
-//only useful for development purposes
-require("dotenv").config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
