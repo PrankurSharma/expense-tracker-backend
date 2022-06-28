@@ -35,14 +35,14 @@ const options = {
 const sessionStore = new mysqlStore(options);
 
 app.use(cors({
-	origin: ["https://finer.netlify.app", "https://my-expense-tracker-project.herokuapp.com"],
+	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-//app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 app.use(session({
 	name: process.env.SESS_NAME,
 	secret: process.env.SESS_SECRET,
@@ -51,6 +51,7 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
+		secure: process.env.NODE_ENV == "production" ? true : false,
 		sameSite: 'none'
 	}
 })
