@@ -61,6 +61,8 @@ app.use(function (req, res, next) {
 	next();
 });
 
+app.options('*', cors);
+
 app.post('/api/signup', (req, res) => {
 
 	let person_id = req.body.person_id;
