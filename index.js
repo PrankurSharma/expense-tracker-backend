@@ -55,7 +55,11 @@ app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });
-app.use(cors());
+app.use(cors({
+	origin: ["https://finer.netlify.app"],
+	methods: ["GET", "POST", "DELETE", "PUT"],
+	credentials: true
+}));
 
 app.post('/api/signup', (req, res) => {
 
