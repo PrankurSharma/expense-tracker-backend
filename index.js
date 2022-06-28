@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
 	next();
 });
 app.use(cors({
-	origin: ["https://finer.netlify.app"],
+	origin: '*',
 	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"],
 	credentials: true
 }));
