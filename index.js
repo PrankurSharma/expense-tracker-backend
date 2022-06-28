@@ -35,7 +35,7 @@ const sessionStore = new mysqlStore(options, pool);
 
 app.use(cors({
 	origin: ["https://finer.netlify.app", "https://my-expense-tracker-project.herokuapp.com"],
-	methods: ["GET", "POST", "DELETE", "PUT"],
+	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"],
 	credentials: true
 }));
 app.use(express.json());
