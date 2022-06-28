@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });
-app.use((req, res, next) {
+app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "https://finer.netlify.app");
   	res.header(
     	"Access-Control-Allow-Headers",
