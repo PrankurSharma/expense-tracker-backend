@@ -17,8 +17,7 @@ const db = mysql.createPool({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
-	database: process.env.DB,
-	createDatabaseTable: true
+	database: process.env.DB
 });
 
 const options = {
@@ -162,7 +161,6 @@ app.post('/api/filter', (request, res) => {
 		let year = request.body.year;
 		const sqlFilter = "select * from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ?";
 		db.query(sqlFilter, [request.session.person_id, month, year], (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
