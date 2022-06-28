@@ -36,7 +36,8 @@ const sessionStore = new mysqlStore(options, pool);
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"],
-	credentials: true
+	credentials: true,
+	allowedHeaders: ["*"]
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
