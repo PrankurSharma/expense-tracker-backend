@@ -66,7 +66,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://finer.netlify.app")
     res.header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested, Content-Type, Accept Authorization"
+      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
     )
 	res.header("Access-Control-Allow-Credentials", true)
     if (req.method === "OPTIONS") {
