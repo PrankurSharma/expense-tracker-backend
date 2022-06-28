@@ -35,7 +35,7 @@ const options = {
 const sessionStore = new mysqlStore(options);
 
 app.use(cors({
-	origin: ["https://finer.netlify.app"],
+	//origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));
@@ -59,8 +59,6 @@ app.use(session({
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
 });*/
-
-var ssn;
 
 app.post('/api/signup', (req, res) => {
 
@@ -92,9 +90,8 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
-						ssn = request.session;
-						ssn.user = results;
-						console.log(ssn);
+						request.session.user = results;
+						console.log(request.session);
 						response.send(results);
 					}
 					else {
@@ -106,14 +103,13 @@ app.post('/api/login', (request, response) => {
 				response.send({ message: "User doesn't exist" });
 			}
 		});
-		console.log(ssn);
+		console.log(request.session);
 	}
 })
 
 app.get('/api/login', function (request, response) {
-	ssn = request.session;
-	if (ssn.user) {
-		response.send(ssn.user);
+	if (request.session.user) {
+		response.send(request.session.user);
 	} else {
 		response.send('Please login to view this page!');
 	}
