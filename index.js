@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 //only useful for development purposes
 require("dotenv").config();
 const bodyParser = require('body-parser');
@@ -209,7 +209,6 @@ app.get('/api/getmonthincome', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Income' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
 		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
@@ -219,7 +218,6 @@ app.get('/api/getmonthexpense', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Expense' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
 		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
@@ -317,9 +315,9 @@ app.put('/api/update', (request, res) => {
 
 app.listen(port, () => {
 	console.log('running on port ' + port);
-});
+});*/
 
-/*const express = require('express');
+const express = require('express');
 //only useful for development purposes
 require("dotenv").config();
 const bodyParser = require('body-parser');
@@ -327,6 +325,7 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
+const mysqlStore = require('express-mysql-session')(session);
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const { request } = require('express');
@@ -340,6 +339,20 @@ const db = mysql.createPool({
 	password: process.env.DB_PASS,
 	database: process.env.DB,
 });
+
+const options = {
+    connectionLimit: 10,
+    password: process.env.DB_PASS,
+    user: process.env.DB_USER,
+    database: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    createDatabaseTable: true
+}
+
+const pool = mysql.createPool(options);
+
+const sessionStore = new mysqlStore(options, pool);
+
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT"],
@@ -354,6 +367,7 @@ app.use(session({
 	secret: process.env.SESS_SECRET,
 	resave: false,
 	saveUninitialized: false,
+	store: sessionStore,
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 72,
 		httpOnly: true,
@@ -618,4 +632,4 @@ app.put('/api/update', (request, res) => {
 
 app.listen(port, () => {
 	console.log('running on port ' + port);
-});*/
+});
