@@ -37,6 +37,8 @@ app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"],
 	credentials: true,
+	allowedHeaders: ['Content-Type', 'Authorization'],
+	optionsSuccessStatus: 204
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
