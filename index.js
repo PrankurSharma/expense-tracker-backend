@@ -70,6 +70,7 @@ app.post('/api/signup', (req, res) => {
 			if (err) {
 				console.log(err);
 			}
+			res.status(200).send(`Signed up`);
 		})
 	})
 });
