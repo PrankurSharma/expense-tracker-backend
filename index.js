@@ -31,18 +31,9 @@ const pool = mysql.createPool(options);
 
 const sessionStore = new mysqlStore(options, pool);
 
-var allowedOrigins = ['https://finer.netlify.app'];
-
 app.use(cors({
-	origin: function(origin, callback){
-		if(!origin) return callback(null, true);
-		if(allowedOrigins.indexOf(origin) === -1){
-		  var msg = 'The CORS policy for this site does not ' +
-					'allow access from the specified Origin.';
-		  return callback(new Error(msg), false);
-		}
-		return callback(null, true);
-	  },
+	origin: ["https://finer.netlify.app"],
+	methods: ["GET", "POST", "DELETE", "PUT"],
 	credentials: true
 }));
 
@@ -63,10 +54,10 @@ app.use(session({
 		sameSite: 'none'
 	}
 }));
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	next();
-});
+});*/
 
 app.post('/api/signup', (req, res) => {
 
