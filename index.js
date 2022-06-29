@@ -70,7 +70,7 @@ app.post('/api/signup', (req, res) => {
 			if (err) {
 				console.log(err);
 			}
-			res.status(200).send(`Account created successfully.`);
+			res.status(200).send("Your personal id is:" + person_id + ". Please keep it safely as it will be used for all the future logins.");
 		})
 	})
 });
@@ -127,7 +127,7 @@ app.put('/api/forgot', (request, res) => {
 						console.log(err);
 					}
 					else {
-						res.send("Success.");
+						res.status(200).send("Password updated successfully.");
 					}
 				})
 			}
