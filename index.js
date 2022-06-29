@@ -270,6 +270,7 @@ app.post('/api/insert', (request, res) => {
 			if (err) {
 				console.log(err);
 			}
+			res.status(200).send(`Inserted`);
 		})
 	}
 });
