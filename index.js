@@ -34,7 +34,7 @@ const sessionStore = new mysqlStore(options, pool);
 app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
-	credentials: true,
+	credentials: true
 }));
 
 app.use(express.json());
@@ -278,6 +278,7 @@ app.post('/api/insert', (request, res) => {
 });
 
 app.delete('/api/delete/:trans_id', cors(), (request, res) => {
+	res.header("Access-Control-Allow-Origin", "true");
 	if (request.session.user) {
 		const id = request.params.trans_id;
 		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
@@ -289,7 +290,6 @@ app.delete('/api/delete/:trans_id', cors(), (request, res) => {
 });
 
 app.put('/api/update', (request, res) => {
-	res.header("Access-Control-Allow-Origin", "*");
 	if (request.session.user) {
 		const task_name = request.body.task;
 		const new_amount = request.body.amount;
