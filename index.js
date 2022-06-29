@@ -31,8 +31,18 @@ const pool = mysql.createPool(options);
 
 const sessionStore = new mysqlStore(options, pool);
 
+var allowedOrigins = ['https://finer.netlify.app'];
+
 app.use(cors({
-	origin: ["https://finer.netlify.app"],
+	origin: function(origin, callback){
+		if(!origin) return callback(null, true);
+		if(allowedOrigins.indexOf(origin) === -1){
+		  var msg = 'The CORS policy for this site does not ' +
+					'allow access from the specified Origin.';
+		  return callback(new Error(msg), false);
+		}
+		return callback(null, true);
+	  },
 	credentials: true
 }));
 
