@@ -277,7 +277,7 @@ app.post('/api/insert', (request, res) => {
 	}
 });
 
-app.delete('/api/delete/:trans_id', cors(), (request, res) => {
+app.delete('/api/delete/:trans_id', (request, res) => {
 	res.header("Access-Control-Allow-Origin", "true");
 	if (request.session.user) {
 		const id = request.params.trans_id;
