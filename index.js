@@ -54,10 +54,6 @@ app.use(session({
 		sameSite: 'none'
 	}
 }));
-/*app.use(function (req, res, next) {
-	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-	next();
-});*/
 
 app.post('/api/signup', (req, res) => {
 
@@ -278,13 +274,13 @@ app.post('/api/insert', (request, res) => {
 });
 
 app.delete('/api/delete/:trans_id', (request, res) => {
-	res.header("Access-Control-Allow-Origin", "true");
 	if (request.session.user) {
 		const id = request.params.trans_id;
 		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
 		db.query(sqlDelete, [id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
+				res.status(200).send(`Deleted`);
 		})
 	}
 });
@@ -299,6 +295,7 @@ app.put('/api/update', (request, res) => {
 		db.query(sqlUpdate, [task_name, new_amount, id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
+			res.status(200).send(`Updated`);
 		})
 	}
 });
