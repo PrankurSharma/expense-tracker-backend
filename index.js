@@ -70,7 +70,7 @@ app.post('/api/signup', (req, res) => {
 			if (err) {
 				console.log(err);
 			}
-			res.status(200).send("Your personal id is:" + person_id + ". Please keep it safely as it will be used for all the future logins.");
+			res.status(200).json({});
 		})
 	})
 });
@@ -127,7 +127,7 @@ app.put('/api/forgot', (request, res) => {
 						console.log(err);
 					}
 					else {
-						res.status(200).send("Password updated successfully.");
+						res.status(200).json({});
 					}
 				})
 			}
@@ -270,7 +270,7 @@ app.post('/api/insert', (request, res) => {
 			if (err) {
 				console.log(err);
 			}
-			res.status(200).send(`Record inserted successfully.`);
+			res.status(200).json({});
 		})
 	}
 });
@@ -282,7 +282,7 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 		db.query(sqlDelete, [id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
-				res.status(200).send(`Record deleted successfully.`);
+				res.status(200).json({});
 		})
 	}
 });
@@ -297,7 +297,7 @@ app.put('/api/update', (request, res) => {
 		db.query(sqlUpdate, [task_name, new_amount, id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
-			res.status(200).send(`Record updated successfully.`);
+			res.status(200).json({});
 		})
 	}
 });
