@@ -70,7 +70,7 @@ app.post('/api/signup', (req, res) => {
 			if (err) {
 				console.log(err);
 			}
-			res.status(200).send(`Signed up`);
+			res.status(200);
 		})
 	})
 });
@@ -270,7 +270,7 @@ app.post('/api/insert', (request, res) => {
 			if (err) {
 				console.log(err);
 			}
-			res.status(200).send(`Inserted`);
+			res.status(200);
 		})
 	}
 });
@@ -282,7 +282,7 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 		db.query(sqlDelete, [id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
-				res.status(200).send(`Deleted`);
+				res.status(200);
 		})
 	}
 });
@@ -297,7 +297,7 @@ app.put('/api/update', (request, res) => {
 		db.query(sqlUpdate, [task_name, new_amount, id, request.session.person_id], (err, result) => {
 			if (err)
 				console.log(err);
-			res.status(200).send(`Updated`);
+			res.status(200);
 		})
 	}
 });
