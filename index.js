@@ -35,7 +35,6 @@ app.use(cors({
 	origin: ["https://finer.netlify.app"],
 	methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
 	credentials: true,
-	allowedHeaders: ['Content-type','Authorization','Origin','Access-Control-Allow-Origin','Accept','Options','X-Requested-With']
 }));
 
 app.use(express.json());
@@ -290,6 +289,7 @@ app.delete('/api/delete/:trans_id', cors(), (request, res) => {
 });
 
 app.put('/api/update', (request, res) => {
+	res.header("Access-Control-Allow-Origin", "*");
 	if (request.session.user) {
 		const task_name = request.body.task;
 		const new_amount = request.body.amount;
