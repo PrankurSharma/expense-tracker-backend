@@ -103,12 +103,17 @@ app.post('/api/login', (request, response) => {
 })
 
 app.get('/api/login', function (request, response) {
-	if (request.session.user) {
-		response.send(request.session.user);
-	} else {
-		response.send('Please login to view this page!');
+	let sqlSelect = "select * from users where person_id = ?";
+	if(request.session.user){
+		db.query(sqlSelect, request.session.person_id, (error, results) => {
+			if(results.length > 0){
+				response.send(request.session.user);
+			}
+			else{
+				response.send({message: "Please login/register to continue."});
+			}
+		})
 	}
-	response.end();
 });
 
 app.put('/api/forgot', (request, res) => {
@@ -259,7 +264,6 @@ app.post('/api/filterexpense', (request, res) => {
 
 app.post('/api/insert', (request, res) => {
 
-	//take the i/p from the front end
 	if (request.session.user) {
 		const amount = request.body.amount;
 		const task = request.body.task;
