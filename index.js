@@ -11,7 +11,6 @@ const { request } = require('express');
 const saltRounds = 10;
 var port = process.env.PORT || 3001;
 
-
 const db = mysql.createPool({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
