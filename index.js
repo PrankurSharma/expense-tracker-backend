@@ -114,6 +114,9 @@ app.get('/api/login', function (request, response) {
 			}
 		})
 	}
+	else{
+		response.send({error: "Please login to your account."});
+	}
 });
 
 app.put('/api/forgot', (request, res) => {
