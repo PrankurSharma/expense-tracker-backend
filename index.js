@@ -159,7 +159,6 @@ app.post('/api/filter', (request, res) => {
 		let year = request.body.year;
 		const sqlFilter = "select * from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ?";
 		db.query(sqlFilter, [request.session.person_id, month, year], (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
@@ -243,7 +242,6 @@ app.post('/api/filterincome', (request, res) => {
 		let year = request.body.year;
 		const sqlIncome = "select sum(Amount) as amTotal from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ? and Type = 'Income'";
 		db.query(sqlIncome, [request.session.person_id, month, year], (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
@@ -255,7 +253,6 @@ app.post('/api/filterexpense', (request, res) => {
 		let year = request.body.year;
 		const sqlIncome = "select sum(Amount) as amTotal from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ? and Type = 'Expense'";
 		db.query(sqlIncome, [request.session.person_id, month, year], (err, result) => {
-			console.log(result);
 			res.send(result);
 		})
 	}
