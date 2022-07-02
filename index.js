@@ -117,7 +117,7 @@ app.get('/api/login', function (request, response) {
 				})
 			}
 			else{
-				response.send({message: "Please login/register to continue."});
+				response.send({message: "This account was deleted. So, the request was not completed. Press OK to login/register your account."});
 			}
 		})
 	}
