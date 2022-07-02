@@ -78,7 +78,7 @@ app.post('/api/login', (request, response) => {
 	let person_id = request.body.person_id;
 	let password = request.body.password;
 	if (person_id && password) {
-		db.query('SELECT person_id, username FROM users WHERE person_id = ?', person_id, function (error, results) {
+		db.query('SELECT * FROM users WHERE person_id = ?', person_id, function (error, results) {
 			if (error) {
 				response.send({ error: error });
 			}
