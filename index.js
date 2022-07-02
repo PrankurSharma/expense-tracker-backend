@@ -85,7 +85,6 @@ app.post('/api/login', (request, response) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password, (err, res) => {
 					if (res) {
-						request.session.person_id = person_id;
 						request.session.user = results;
 						response.send(results);
 					}
@@ -104,10 +103,9 @@ app.post('/api/login', (request, response) => {
 app.get('/api/login', function (request, response) {
 	let sqlSelect = "select * from users where person_id = ?";
 	if(request.session.user){
-		db.query(sqlSelect, request.session.person_id, (error, results) => {
+		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
-				bcrypt.compare(request.session.user.password, results[0].password, (err, res) => {
-					console.log(request.session.user);
+				bcrypt.compare(request.session.user[0].password, results[0].password, (err, res) => {
 					if(res){
 						response.send(request.session.user);
 					}
@@ -166,7 +164,7 @@ app.post('/api/filter', (request, res) => {
 		let month = request.body.month;
 		let year = request.body.year;
 		const sqlFilter = "select * from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ?";
-		db.query(sqlFilter, [request.session.person_id, month, year], (err, result) => {
+		db.query(sqlFilter, [request.session.user[0].person_id, month, year], (err, result) => {
 			res.send(result);
 		})
 	}
@@ -176,7 +174,7 @@ app.post('/api/filter', (request, res) => {
 app.get('/api/get', (request, res) => {
 	if (request.session.user) {
 		const sqlSelect = "select * from money_additions where person_id = ?";
-		db.query(sqlSelect, request.session.person_id, (err, result) => {
+		db.query(sqlSelect, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -185,7 +183,7 @@ app.get('/api/get', (request, res) => {
 app.get('/api/getmonthtrans', (request, res) => {
 	if (request.session.user) {
 		const sqlSelect = "select * from money_additions where person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
-		db.query(sqlSelect, request.session.person_id, (err, result) => {
+		db.query(sqlSelect, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -194,7 +192,7 @@ app.get('/api/getmonthtrans', (request, res) => {
 app.get('/api/getincome', (request, res) => {
 	if (request.session.user) {
 		const sqlSelect = "select * from money_additions where Type = 'Income' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
-		db.query(sqlSelect, request.session.person_id, (err, result) => {
+		db.query(sqlSelect, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -202,7 +200,7 @@ app.get('/api/getincome', (request, res) => {
 app.get('/api/getexpense', (request, res) => {
 	if (request.session.user) {
 		const sqlSelect = "select * from money_additions where Type = 'Expense' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
-		db.query(sqlSelect, request.session.person_id, (err, result) => {
+		db.query(sqlSelect, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -211,7 +209,7 @@ app.get('/api/getexpense', (request, res) => {
 app.get('/api/getmonthincome', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Income' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
-		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
+		db.query(sqlSelectTotal, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -220,7 +218,7 @@ app.get('/api/getmonthincome', (request, res) => {
 app.get('/api/getmonthexpense', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Expense' and person_id = ? and month(added_date) = month(now()) and year(added_date) = year(now())";
-		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
+		db.query(sqlSelectTotal, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -229,7 +227,7 @@ app.get('/api/getmonthexpense', (request, res) => {
 app.get('/api/gettotalincome', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Income' and person_id = ?";
-		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
+		db.query(sqlSelectTotal, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -238,7 +236,7 @@ app.get('/api/gettotalincome', (request, res) => {
 app.get('/api/gettotalexpense', (request, res) => {
 	if (request.session.user) {
 		const sqlSelectTotal = "select sum(Amount) as amTotal from money_additions where Type = 'Expense' and person_id = ?";
-		db.query(sqlSelectTotal, request.session.person_id, (err, result) => {
+		db.query(sqlSelectTotal, request.session.user[0].person_id, (err, result) => {
 			res.send(result);
 		})
 	}
@@ -249,7 +247,7 @@ app.post('/api/filterincome', (request, res) => {
 		let month = request.body.month;
 		let year = request.body.year;
 		const sqlIncome = "select sum(Amount) as amTotal from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ? and Type = 'Income'";
-		db.query(sqlIncome, [request.session.person_id, month, year], (err, result) => {
+		db.query(sqlIncome, [request.session.user[0].person_id, month, year], (err, result) => {
 			res.send(result);
 		})
 	}
@@ -260,7 +258,7 @@ app.post('/api/filterexpense', (request, res) => {
 		let month = request.body.month;
 		let year = request.body.year;
 		const sqlIncome = "select sum(Amount) as amTotal from money_additions where person_id = ? and month(added_date) = ? and year(added_date) = ? and Type = 'Expense'";
-		db.query(sqlIncome, [request.session.person_id, month, year], (err, result) => {
+		db.query(sqlIncome, [request.session.user[0].person_id, month, year], (err, result) => {
 			res.send(result);
 		})
 	}
@@ -277,7 +275,7 @@ app.post('/api/insert', (request, res) => {
 		const type = request.body.type;
 		const date = request.body.date;
 		const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
-		db.query(sqlInsert, [request.session.person_id, amount, task, type, date], (err, result) => {
+		db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
 			if (err) {
 				console.log(err);
 			}
@@ -290,7 +288,7 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 	if (request.session.user) {
 		const id = request.params.trans_id;
 		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
-		db.query(sqlDelete, [id, request.session.person_id], (err, result) => {
+		db.query(sqlDelete, [id, request.session.user[0].person_id], (err, result) => {
 			if (err)
 				console.log(err);
 				res.status(200).json({});
@@ -305,7 +303,7 @@ app.put('/api/update', (request, res) => {
 		const id = request.body.trans_id;
 		const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ?";
 
-		db.query(sqlUpdate, [task_name, new_amount, id, request.session.person_id], (err, result) => {
+		db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id], (err, result) => {
 			if (err)
 				console.log(err);
 			res.status(200).json({});
