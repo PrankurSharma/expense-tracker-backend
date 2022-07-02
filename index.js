@@ -105,14 +105,12 @@ app.get('/api/login', function (request, response) {
 	if(request.session.user){
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
-				bcrypt.compare(request.session.user[0].password, results[0].password, (err, res) => {
-					if(res){
-						response.send(request.session.user);
-					}
-					else{
-						response.send({message: "Your account details were modified. Please login using new credentials."});
-					}
-				})
+				if(request.session.user[0].password === results[0].password){
+					response.send(request.session.user);
+				}
+				else{
+					response.send({message: "Your account details were modified. Please login using new credentials."});
+				}
 			}
 			else{
 				response.send({message: "This account was deleted. So, the request was not completed. Press OK to login/register your account."});
