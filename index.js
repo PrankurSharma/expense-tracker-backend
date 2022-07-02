@@ -106,7 +106,15 @@ app.get('/api/login', function (request, response) {
 	if(request.session.user){
 		db.query(sqlSelect, request.session.person_id, (error, results) => {
 			if(results.length > 0){
-				response.send(request.session.user);
+				bcrypt.compare(request.session.user.password, results[0].password, (err, res) => {
+					console.log(request.session.user.password);
+					if(res){
+						response.send(request.session.user);
+					}
+					else{
+						response.send({message: "Your account details were modified. Please login using new credentials."});
+					}
+				})
 			}
 			else{
 				response.send({message: "Please login/register to continue."});
