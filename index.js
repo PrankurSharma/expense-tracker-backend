@@ -107,7 +107,7 @@ app.get('/api/login', function (request, response) {
 		db.query(sqlSelect, request.session.person_id, (error, results) => {
 			if(results.length > 0){
 				bcrypt.compare(request.session.user.password, results[0].password, (err, res) => {
-					console.log(request.session.user.password);
+					console.log(request.session.user);
 					if(res){
 						response.send(request.session.user);
 					}
