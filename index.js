@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var port = process.env.PORT || 3001;
 
-const db = require('./Database/DatabaseRoute');
+const db = require('./DatabaseRoute');
 
 const options = {
     password: process.env.DB_PASS,
