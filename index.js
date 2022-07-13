@@ -2,9 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const mysql = require('mysql');
+
 const session = require('express-session');
-const mysqlStore = require('express-mysql-session')(session);
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -12,17 +11,7 @@ var port = process.env.PORT || 3001;
 
 const db = require('./DatabaseRoute');
 
-const options = {
-    password: process.env.DB_PASS,
-    user: process.env.DB_USER,
-    database: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    createDatabaseTable: true
-}
-
-const pool = mysql.createPool(options);
-
-const sessionStore = new mysqlStore(options, pool);
+const sessionStore = require('./DatabaseSessionRoute');
 
 app.use(cors({
 	origin: [process.env.URL],
