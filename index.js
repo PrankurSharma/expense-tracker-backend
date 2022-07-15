@@ -137,7 +137,7 @@ app.put('/api/forgot', (request, res) => {
 				res.send({ message: "ID doesn't exist." });
 			}
 		});
-	})
+	});
 });
 
 app.get('/api/logout', (request, res) => {
@@ -169,6 +169,9 @@ app.post('/api/insert', (request, res) => {
 					res.send({message: "Logged out."});
 				}
 			}
+			else{
+				res.send({message: "Account has been deleted."});
+			}
 		});
 	}
 });
@@ -191,6 +194,9 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 					res.send({message: "Logged out."});
 				}
 			}
+			else{
+				res.send({message: "Account has been deleted."});
+			}
 		});
 	}
 });
@@ -211,9 +217,12 @@ app.put('/api/update', (request, res) => {
 						res.status(200).json({});
 					});
 				}
+				else{
+					res.send({message: "Logged out."});
+				}
 			}
 			else{
-				res.send({message: "Logged out."});
+				res.send({message: "Account has been deleted."});
 			}
 		});
 	}
