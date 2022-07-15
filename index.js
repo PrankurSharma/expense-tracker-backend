@@ -152,15 +152,15 @@ app.get('/api/logout', (request, res) => {
 });
 
 app.post('/api/insert', (request, res) => {
+	const amount = request.body.amount;
+	const task = request.body.task;
+	const type = request.body.type;
+	const date = request.body.date;
 	const sqlSelect = "select * from users where person_ id = ?";
 	if (request.session.user) {
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
 				if(request.session.user[0].password === results[0].password){
-					const amount = request.body.amount;
-					const task = request.body.task;
-					const type = request.body.type;
-					const date = request.body.date;
 					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
 					db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
 						if (err) {
@@ -200,14 +200,14 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 });
 
 app.put('/api/update', (request, res) => {
+	const task_name = request.body.task;
+	const new_amount = request.body.amount;
+	const id = request.body.trans_id;
 	const sqlSelect = "select * from users where person_id = ?";
 	if (request.session.user) {
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
 				if(request.session.user[0].password === results[0].password){
-					const task_name = request.body.task;
-					const new_amount = request.body.amount;
-					const id = request.body.trans_id;
 					const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ?";
 					db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id], (err, result) => {
 						if (err)
