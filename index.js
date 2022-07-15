@@ -156,7 +156,7 @@ app.post('/api/insert', (request, res) => {
 	const sqlSelect = "select * from users where person_ id = ?";
 	if (request.session.user) {
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
-			if(results.length > 0){
+			if(results){
 				if(request.session.user[0].password === results[0].password){
 					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)";
 					db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
