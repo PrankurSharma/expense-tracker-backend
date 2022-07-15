@@ -65,7 +65,7 @@ app.post('/api/signup', (req, res) => {
 			}
 			res.status(200).json({});
 		})
-	})
+	});
 });
 
 app.post('/api/login', (request, response) => {
@@ -109,7 +109,7 @@ app.get('/api/login', function (request, response) {
 			else{
 				response.send({message: "This account was deleted. So, the request was not completed. Press OK to login/register your account."});
 			}
-		})
+		});
 	}
 	else{
 		response.send({error: "Please login to your account."});
@@ -134,12 +134,12 @@ app.put('/api/forgot', (request, res) => {
 					else {
 						res.status(200).json({});
 					}
-				})
+				});
 			}
 			else {
 				res.send({ message: "ID doesn't exist." });
 			}
-		})
+		});
 	})
 });
 
@@ -152,46 +152,74 @@ app.get('/api/logout', (request, res) => {
 });
 
 app.post('/api/insert', (request, res) => {
-
+	const sqlSelect = "select * from users where person_ id = ?";
 	if (request.session.user) {
-		const amount = request.body.amount;
-		const task = request.body.task;
-		const type = request.body.type;
-		const date = request.body.date;
-		const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
-		db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
-			if (err) {
-				console.log(err);
+		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
+			if(results.length > 0){
+				if(request.session.user[0].password === results[0].password){
+					const amount = request.body.amount;
+					const task = request.body.task;
+					const type = request.body.type;
+					const date = request.body.date;
+					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
+					db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
+						if (err) {
+							console.log(err);
+						}
+						res.status(200).json({});
+					});
+				}
+				else{
+					res.send({message: "Logged out."});
+				}
 			}
-			res.status(200).json({});
-		})
+		});
 	}
 });
 
 app.delete('/api/delete/:trans_id', (request, res) => {
+	const sqlSelect = "select * from users where person_id = ?";
 	if (request.session.user) {
-		const id = request.params.trans_id;
-		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
-		db.query(sqlDelete, [id, request.session.user[0].person_id], (err, result) => {
-			if (err)
-				console.log(err);
-				res.status(200).json({});
-		})
+		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
+			if(results.length > 0){
+				if(request.session.user[0].password === results[0].password){
+					const id = request.params.trans_id;
+					const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
+					db.query(sqlDelete, [id, request.session.user[0].person_id], (err, result) => {
+						if (err)
+							console.log(err);
+							res.status(200).json({});
+					});
+				}
+				else{
+					res.send({message: "Logged out."});
+				}
+			}
+		});
 	}
 });
 
 app.put('/api/update', (request, res) => {
+	const sqlSelect = "select * from users where person_id = ?";
 	if (request.session.user) {
-		const task_name = request.body.task;
-		const new_amount = request.body.amount;
-		const id = request.body.trans_id;
-		const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ?";
-
-		db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id], (err, result) => {
-			if (err)
-				console.log(err);
-			res.status(200).json({});
-		})
+		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
+			if(results.length > 0){
+				if(request.session.user[0].password === results[0].password){
+					const task_name = request.body.task;
+					const new_amount = request.body.amount;
+					const id = request.body.trans_id;
+					const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ?";
+					db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id], (err, result) => {
+						if (err)
+							console.log(err);
+						res.status(200).json({});
+					});
+				}
+			}
+			else{
+				res.send({message: "Logged out."});
+			}
+		});
 	}
 });
 
@@ -297,9 +325,6 @@ app.post('/api/filterexpense', (request, res) => {
 		db.query(sqlIncome, [request.session.user[0].person_id, month, year], (err, result) => {
 			res.send(result);
 		})
-	}
-	else {
-		res.send({ message: "Please login to continue." });
 	}
 });
 
