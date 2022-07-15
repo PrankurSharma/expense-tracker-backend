@@ -166,6 +166,9 @@ app.post('/api/insert', (request, res) => {
 			res.status(200).json({});
 		})
 	}
+	else{
+		res.send({message: "Please login to continue."});
+	}
 });
 
 app.delete('/api/delete/:trans_id', (request, res) => {
@@ -177,6 +180,9 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 				console.log(err);
 				res.status(200).json({});
 		})
+	}
+	else{
+		res.send({message: "Please login to continue."});
 	}
 });
 
@@ -192,6 +198,9 @@ app.put('/api/update', (request, res) => {
 				console.log(err);
 			res.status(200).json({});
 		})
+	}
+	else{
+		res.send({message: "Please login to continue."});
 	}
 });
 
