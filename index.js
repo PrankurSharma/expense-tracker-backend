@@ -153,13 +153,13 @@ app.post('/api/insert', (request, res) => {
 	const task = request.body.task;
 	const type = request.body.type;
 	const date = request.body.date;
-	const sqlSelect = "select * from users where person_ id = ?";
+	const sqlSelect = "select * from users where person_id = ?";
 	if (request.session.user) {
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
-			if(results){
+			if(results.length > 0){
 				if(request.session.user[0].password === results[0].password){
-					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)";
-					db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
+					const sqlInsert = "insert into money_additions (person_id, trans_id, Task, Amount, Type, added_date) values (?, uuid(), ?, ?, ?, ?)";
+					db.query(sqlInsert, [request.session.user[0].person_id, task, amount, type, date], (err, result) => {
 						if (err)
 							console.log(err);
 						res.status(200).json({});
