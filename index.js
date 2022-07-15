@@ -128,12 +128,9 @@ app.put('/api/forgot', (request, res) => {
 		db.query(sqlSelect, person_id, (error, ress) => {
 			if (ress.length > 0) {
 				db.query(sqlUpdate, [hash, person_id], (err, result) => {
-					if (err) {
+					if (err)
 						console.log(err);
-					}
-					else {
-						res.status(200).json({});
-					}
+					res.status(200).json({});
 				});
 			}
 			else {
@@ -161,11 +158,10 @@ app.post('/api/insert', (request, res) => {
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
 				if(request.session.user[0].password === results[0].password){
-					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
+					const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)";
 					db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
-						if (err) {
+						if (err)
 							console.log(err);
-						}
 						res.status(200).json({});
 					});
 				}
@@ -188,7 +184,7 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 					db.query(sqlDelete, [id, request.session.user[0].person_id], (err, result) => {
 						if (err)
 							console.log(err);
-							res.status(200).json({});
+						res.status(200).json({});
 					});
 				}
 				else{
