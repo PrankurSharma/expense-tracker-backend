@@ -174,6 +174,9 @@ app.post('/api/insert', (request, res) => {
 			}
 		});
 	}
+	else{
+		res.send({message: "Please login to continue."});
+	}
 });
 
 app.delete('/api/delete/:trans_id', (request, res) => {
@@ -198,6 +201,9 @@ app.delete('/api/delete/:trans_id', (request, res) => {
 				res.send({message: "Account has been deleted."});
 			}
 		});
+	}
+	else{
+		res.send({message: "Please login to continue."});
 	}
 });
 
@@ -225,6 +231,9 @@ app.put('/api/update', (request, res) => {
 				res.send({message: "Account has been deleted."});
 			}
 		});
+	}
+	else{
+		res.send({message: "Please login to continue."});
 	}
 });
 
@@ -301,10 +310,10 @@ app.get('/api/gettotalexpense', (request, res) => {
 });
 
 app.post('/api/filter', (request, res) => {
+	let month = request.body.month;
+	let year = request.body.year;
 	const sqlSelect = "select * from users where person_id = ?";
 	if (request.session.user) {
-		let month = request.body.month;
-		let year = request.body.year;
 		db.query(sqlSelect, request.session.user[0].person_id, (error, results) => {
 			if(results.length > 0){
 				if(request.session.user[0].password === results[0].password){
@@ -315,14 +324,17 @@ app.post('/api/filter', (request, res) => {
 						res.send(result);
 					});
 				}
+				else{
+					res.send({message: "Logged out."});
+				}
 			}
 			else{
-				res.send({message: "Logged out."});
+				res.send({message: "Account deleted."});
 			}
 		});
 	}
 	else{
-		res.send({message: "Account deleted."});
+		res.send({message: "Please login to continue."});
 	}
 });
 
