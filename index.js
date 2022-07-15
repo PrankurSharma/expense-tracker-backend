@@ -125,6 +125,7 @@ app.put('/api/forgot', (request, res) => {
 		}
 		let sqlSelect = "select * from users where person_id = ?";
 		let sqlUpdate = "update users set password = ? where person_id = ?";
+		let sqlUpdataEntries = "update money_additions set password = ? where person_id = ?";
 		db.query(sqlSelect, person_id, (error, ress) => {
 			if (ress.length > 0) {
 				db.query(sqlUpdate, [hash, person_id], (err, result) => {
@@ -132,7 +133,9 @@ app.put('/api/forgot', (request, res) => {
 						console.log(err);
 					}
 					else {
-						res.status(200).json({});
+						db.query(sqlUpdataEntries, [hash, person_id], (err, result) => {
+							res.status(200).json({});
+						})
 					}
 				})
 			}
@@ -158,12 +161,14 @@ app.post('/api/insert', (request, res) => {
 		const task = request.body.task;
 		const type = request.body.type;
 		const date = request.body.date;
-		const sqlInsert = "insert into money_additions (person_id, trans_id, Amount, Task, Type, added_date) values (?, uuid(), ?, ?, ?, ?)"
-		db.query(sqlInsert, [request.session.user[0].person_id, amount, task, type, date], (err, result) => {
+		const sqlInsert = "insert into money_additions (person_id, password, trans_id, Amount, Task, Type, added_date) values (?, ?, uuid(), ?, ?, ?, ?)"
+		db.query(sqlInsert, [request.session.user[0].person_id, request.session.user[0].password, amount, task, type, date], (err, result) => {
 			if (err) {
-				console.log(err);
+				res.send({ message: err});
 			}
-			res.status(200).json({});
+			else{
+				res.status(200).json({});
+			}
 		})
 	}
 });
@@ -171,11 +176,14 @@ app.post('/api/insert', (request, res) => {
 app.delete('/api/delete/:trans_id', (request, res) => {
 	if (request.session.user) {
 		const id = request.params.trans_id;
-		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ?";
-		db.query(sqlDelete, [id, request.session.user[0].person_id], (err, result) => {
-			if (err)
-				console.log(err);
+		const sqlDelete = "delete from money_additions where trans_id = ? and person_id = ? and password = ?";
+		db.query(sqlDelete, [id, request.session.user[0].person_id, request.session.user[0].password], (err, result) => {
+			if (err){
+				res.send({ message: err });
+			}
+			else{
 				res.status(200).json({});
+			}
 		})
 	}
 });
@@ -185,12 +193,15 @@ app.put('/api/update', (request, res) => {
 		const task_name = request.body.task;
 		const new_amount = request.body.amount;
 		const id = request.body.trans_id;
-		const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ?";
+		const sqlUpdate = "update money_additions set Task = ?, Amount = ? where trans_id = ? and person_id = ? and password = ?";
 
-		db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id], (err, result) => {
-			if (err)
-				console.log(err);
-			res.status(200).json({});
+		db.query(sqlUpdate, [task_name, new_amount, id, request.session.user[0].person_id, request.session.user[0].password], (err, result) => {
+			if (err){
+				res.send( {message: err} );
+			}
+			else{
+				res.status(200).json({});
+			}
 		})
 	}
 });
